@@ -230,6 +230,15 @@ Public Sub salvarArquiteto()
     
     Call DaoArquiteto.pesquisarAquitetoPorIdNaLista(arquitetoBanco)
     
+    For i = 1 To LISTA_ARQUITETOS.Count
+        Set arquiteto = LISTA_ARQUITETOS.Item(i)
+        
+        If arquiteto.codigo = arquitetoBanco.codigo Then
+            Set arquiteto = arquitetoBanco
+            Exit For
+        End If
+    Next i
+    
     MsgBox "Alteração feita com sucesso!", vbInformation, "Alteração realizada"
 End Sub
 

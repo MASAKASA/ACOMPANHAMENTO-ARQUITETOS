@@ -35,7 +35,7 @@ Function cadastrarEEditar(lista As Collection, fecharConexao As Boolean) As Coll
         
         ' String para consulta
         strSql = "SELECT * FROM Contatos_Arquiteto " & "WHERE cod_contato = " & contato.codigo & "" _
-                & " AND cod_contato = " & contato.arquiteto.codigo & ";"
+                & " AND fk_arquiteto = " & contato.arquiteto.codigo & ";"
         
         ' Consulta banco
         rsAuxiliar.Open strSql, CONEXAO_BD, adOpenKeyset, adLockReadOnly
@@ -120,19 +120,30 @@ Function cadastrarEEditar(lista As Collection, fecharConexao As Boolean) As Coll
                 & "data_contato = " & contato.dataContato & ", " _
                 & "relato_contato = '" & contato.relatoContato & "', " _
                 & "data_retorno = " & contato.dataRetorno & ", " _
-                & "observacao = '" & contato.obsevacao & "', " _
-                & " WHERE cod_contato = " & contato.codigo & ";"
+                & "observacao = '" & contato.obsevacao & "' " _
+                & "WHERE cod_contato = " & contato.codigo & ";"
                         
             ' Abrindo Recordset para consulta
             rs.Open strSql, CONEXAO_BD, adOpenKeyset, adLockPessimistic
             ' Retorna o valor
             cadastro = True
             
-            listaContatosBanco.Add contato
-        End If
+            If contato.dataContato = "NULL" Then
+                contato.dataContato = ""
+            ElseIf Len(contato.dataContato) = 12 Then
+                contato.dataContato = Mid(contato.dataContato, 2, Len(contato.dataContato) - 2)
+            End If
+            
+            If contato.dataRetorno = "NULL" Then
+                contato.dataRetorno = ""
+            ElseIf Len(contato.dataRetorno) = 12 Then
+                contato.dataRetorno = Mid(contato.dataRetorno, 2, Len(contato.dataRetorno) - 2)
+            End If
+            
+                listaContatosBanco.Add contato
+            End If
         
             ' Libera recurso Recordset
-            rsAuxiliar.Close
             Set contato = Nothing
             Set rsAuxiliar = Nothing
             Set rs = Nothing

@@ -93,7 +93,7 @@ Function cadastrarEEditar(lista As Collection, fecharConexao As Boolean) As Coll
             strSql = "UPDATE Romaneios_Arquitetos SET " _
                 & "fk_arquiteto = " & romaneio.arquiteto.codigo & ", " _
                 & "numero_romaneio = '" & romaneio.numeroRomaneio & "', " _
-                & "pontuacao = '" & romaneio.pontuacao & "', " _
+                & "pontuacao = '" & romaneio.pontuacao & "' " _
                 & " WHERE cod_romaneio = " & romaneio.codigo & ";"
                         
             ' Abrindo Recordset para consulta
@@ -105,7 +105,6 @@ Function cadastrarEEditar(lista As Collection, fecharConexao As Boolean) As Coll
         End If
         
             ' Libera recurso Recordset
-            rsAuxiliar.Close
             Set romaneio = Nothing
             Set rsAuxiliar = Nothing
             Set rs = Nothing
@@ -119,5 +118,7 @@ Function cadastrarEEditar(lista As Collection, fecharConexao As Boolean) As Coll
     
     Set cadastrarEEditar = listaRomaneiosBanco
 End Function
+
+
 
 

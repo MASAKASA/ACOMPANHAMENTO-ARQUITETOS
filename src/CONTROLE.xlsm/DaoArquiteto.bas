@@ -449,13 +449,13 @@ Function cadastrarEditarArquiteto(arquiteto As objArquiteto) As objArquiteto
         campos(2) = "'" & arquiteto.escritorio & "', "
         
         If arquiteto.aniversario = "" Or arquiteto.aniversario = " " Then
-            campos(3) = "" & "NULL" & ", "
+            campos(3) = "NULL" & ", "
         Else
             campos(3) = "'" & arquiteto.aniversario & "', "
         End If
         
         If arquiteto.ultimoContato = "" Or arquiteto.ultimoContato = " " Then
-            campos(4) = "" & "NULL" & ", "
+            campos(4) = "NULL" & ", "
         Else
             campos(4) = "'" & arquiteto.ultimoContato & "', "
         End If
@@ -552,6 +552,20 @@ Function cadastrarEditarArquiteto(arquiteto As objArquiteto) As objArquiteto
                             & "WHERE pf_codigo = " & arquiteto.codigo & ";"
             
         rs.Open strSql, CONEXAO_BD, adOpenKeyset, adLockPessimistic
+        
+        If arquiteto.aniversario = "NULL" Then
+            arquiteto.aniversario = ""
+            
+        ElseIf Len(arquiteto.aniversario) = 12 Then
+            arquiteto.aniversario = Mid(arquiteto.aniversario, 2, Len(arquiteto.aniversario) - 2)
+        End If
+        
+        If arquiteto.ultimoContato = "NULL" Then
+            arquiteto.ultimoContato = ""
+            
+        ElseIf Len(arquiteto.ultimoContato) = 12 Then
+            arquiteto.ultimoContato = Mid(arquiteto.ultimoContato, 2, Len(arquiteto.ultimoContato) - 2)
+        End If
         
         If arquiteto.listaContatos.Count > 0 Then
             ' Editar os contatos
@@ -726,14 +740,14 @@ Function limparCamposArquiteto()
     Range("CONTATOS[OBSERVAÇÃO]").Activate
     With Selection
         .HorizontalAlignment = xlLeft
-        .VerticalAlignment = xlCenter
         .WrapText = True
+        .VerticalAlignment = xlCenter
         .Orientation = 0
         .AddIndent = False
         .IndentLevel = 0
         .ShrinkToFit = False
-        .ReadingOrder = xlContext
         .MergeCells = False
+        .ReadingOrder = xlContext
     End With
     With Selection
         .HorizontalAlignment = xlLeft
@@ -760,3 +774,5 @@ Function limparCamposArquiteto()
     
     Range("A1").Select
 End Function
+
+
