@@ -193,21 +193,29 @@ Public Sub salvarArquiteto()
         linha = 17
         ultimaLinha = ws.Cells(ws.Rows.Count, 11).End(xlUp).Row
         For i = linha To ultimaLinha
-           Set romaneio = New objRomaneio
+            Set romaneio = New objRomaneio
+            
+            romaneio.codigo = UCase(.Cells(linha, 11).Value)
+            romaneio.numeroRomaneio = UCase(.Cells(linha, 8).Value)
+            romaneio.pontuacao = UCase(.Cells(linha, 9).Value)
            
-           romaneio.codigo = UCase(.Cells(linha, 11).Value)
-           romaneio.numeroRomaneio = UCase(.Cells(linha, 8).Value)
-           romaneio.pontuacao = UCase(.Cells(linha, 9).Value)
-           Set romaneio.arquiteto = arquiteto
-           
-           If romaneio.codigo <> "0" And romaneio.numeroRomaneio <> "" Then
-               listaRomaneios.Add romaneio
-           ElseIf romaneio.codigo = "0" And romaneio.numeroRomaneio <> "" Then
-               listaRomaneios.Add romaneio
-           End If
-           
-           Set romaneio = Nothing
-           linha = linha + 1
+            If romaneio.pontuacao <> "" Or romaneio.pontuacao <> " " Then
+                If romaneio.numeroRomaneio = "" Or romaneio.numeroRomaneio = " " Then
+                    MsgBox "Adicione um número de romaneio para pontuação na linha: " & linha & "!", vbCritical, "Número de romaneio inválido"
+                    Exit Sub
+                End If
+            End If
+            
+            Set romaneio.arquiteto = arquiteto
+            
+            If romaneio.codigo <> "0" And romaneio.numeroRomaneio <> "" Then
+                listaRomaneios.Add romaneio
+            ElseIf romaneio.codigo = "0" And romaneio.numeroRomaneio <> "" Then
+                listaRomaneios.Add romaneio
+            End If
+            
+            Set romaneio = Nothing
+            linha = linha + 1
         Next i
     End With
     
