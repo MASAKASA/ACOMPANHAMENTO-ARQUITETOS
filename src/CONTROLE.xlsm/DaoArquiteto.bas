@@ -366,9 +366,15 @@ Function pesquisarAquitetoPorIdNaLista(arquiteto As objArquiteto)
         For i = 1 To arquiteto.listaContatos.Count
             Set contato = arquiteto.listaContatos.Item(i)
             
-            .Cells(linha, 2).Value = contato.dataContato
+            If IsDate(contato.dataContato) = True Then
+                .Cells(linha, 2).Value = ConverterFormatoData(contato.dataContato)
+            End If
+            
+            If IsDate(contato.dataRetorno) = True Then
+                .Cells(linha, 4).Value = ConverterFormatoData(contato.dataRetorno)
+            End If
+            
             .Cells(linha, 3).Value = contato.relatoContato
-            .Cells(linha, 4).Value = contato.dataRetorno
             .Cells(linha, 5).Value = contato.obsevacao
             .Cells(linha, 6).Value = contato.codigo
             
@@ -775,4 +781,21 @@ Function limparCamposArquiteto()
     Range("A1").Select
 End Function
 
+' Formata a data
+Function ConverterFormatoData(data) As String
+    'Variaveeis do medoto
+    Dim dataOriginal As String
+    Dim dataConvertida As String
+    
+    ' Defina a data original no formato "dd/mm/yyyy"
+    dataOriginal = data
+    
+    ' Divida a data em dia, mês e ano
+    Dim partesData() As String
+    partesData = Split(dataOriginal, "/")
+    
+    ' Reorganize as partes da data no formato "yyyy-mm-dd"
+    dataConvertida = partesData(1) & "-" & partesData(0) & "-" & partesData(2)
 
+    ConverterFormatoData = dataConvertida
+End Function
